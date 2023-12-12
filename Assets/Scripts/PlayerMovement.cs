@@ -16,6 +16,8 @@ public class PlayerMovement : MonoBehaviour
     public bool isInvincible = false;
     public float invinceDuration = 2f;
     public float invinceTimer = 0f;
+    public UIManager uiManager;
+
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +37,11 @@ public class PlayerMovement : MonoBehaviour
             {
                 isInvincible = false;
             }
+        }
+
+        if (uiManager.playerLives ==  0)
+        {
+            uiManager.playerLives = 3;
         }
         IsShipMoving();
         IsShipRotating();
@@ -111,6 +118,9 @@ public class PlayerMovement : MonoBehaviour
             //give player some invincibility when they hit an asteroid
             isInvincible = true;
             invinceTimer = invinceDuration;
+
+            //decrease lives when hit
+            uiManager.RemoveLives();
         }
     }
 }
