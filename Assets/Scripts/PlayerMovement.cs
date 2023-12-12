@@ -13,6 +13,10 @@ public class PlayerMovement : MonoBehaviour
     public bool isMoving = false;
     public GameObject bulletPrefab;
     public Transform bulletSpawn;
+    public bool isInvincible = false;
+    public float invinceDuration = 2f;
+    public float invinceTimer = 0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,10 +26,22 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //if the player is invincible, it counts the timer down until it expires, then makes the player not invincible
+        if (isInvincible)
+        {
+            invinceTimer -= Time.deltaTime;
+
+            if (invinceTimer <= 0 )
+            {
+                isInvincible = false;
+            }
+        }
         IsShipMoving();
         IsShipRotating();
         IsOffScreen();
         IsShooting();
+
+        
     }
 
     private void IsShipMoving()
@@ -82,6 +98,19 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.position, transform.rotation);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Asteroid") && !isInvincible)
+        {
+            //resets player back to start position
+            transform.position = Vector2.zero;
+
+            //give player some invincibility when they hit an asteroid
+            isInvincible = true;
+            invinceTimer = invinceDuration;
         }
     }
 }
