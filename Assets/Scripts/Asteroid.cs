@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Asteroid : MonoBehaviour
 {
-    public float asteroidSize = 3f;
+    public int asteroidSize = 3;
     public Rigidbody2D rb;
     
     // Start is called before the first frame update
@@ -24,7 +24,7 @@ public class Asteroid : MonoBehaviour
         DestroyIfOffscreen();
     }
 
-    public void DestroyIfOffscreen()
+    private void DestroyIfOffscreen()
     {
         Vector3 position = transform.position;
         if (position.y > 5)
@@ -45,5 +45,25 @@ public class Asteroid : MonoBehaviour
         }
 
         transform.position = position;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Bullet"))
+        {
+            //gets rid of the bullet that hit the asteroid
+            Destroy(collision.gameObject);
+
+            if (asteroidSize > 1)
+            {
+                for(int i = 0; i < 2; i++)
+                {
+                    Asteroid newAsteroid = Instantiate(this, transform.position, Quaternion.identity);
+                    newAsteroid.asteroidSize = asteroidSize -1;
+                }
+            }
+            
+            Destroy(gameObject);
+        }
     }
 }
