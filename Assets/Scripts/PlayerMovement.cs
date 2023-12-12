@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
     public float drag = 2f;
     public float maxSpeed = 10f;
     public bool isMoving = false;
+    public GameObject bulletPrefab;
+    public Transform bulletSpawn;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
         IsShipMoving();
         IsShipRotating();
         IsOffScreen();
+        IsShooting();
     }
 
     private void IsShipMoving()
@@ -72,5 +75,13 @@ public class PlayerMovement : MonoBehaviour
         }
 
         transform.position = position;
+    }
+
+    private void IsShooting()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.position, transform.rotation);
+        }
     }
 }
