@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     {
         IsShipMoving();
         IsShipRotating();
+        IsOffScreen();
     }
 
     private void IsShipMoving()
@@ -31,6 +32,10 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.AddForce(playerSpeed * transform.up);
             rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
+        }
+        else
+        {
+            rb.velocity -= rb.velocity * drag * Time.deltaTime;
         }
     }
 
@@ -44,5 +49,28 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.Rotate(-rotationSpeed * Time.deltaTime * transform.forward);
         }
+    }
+
+    private void IsOffScreen()
+    {
+        Vector3 position = transform.position;
+        if (position.y > 5)
+        {
+            position.y = -5;
+        }
+        else if (position.y < -5)
+        {
+            position.y = 5;
+        }
+        if (position.x > 9)
+        {
+            position.x = -9;
+        }
+        else if (position.x < -9)
+        {
+            position.x = 9;
+        }
+
+        transform.position = position;
     }
 }
