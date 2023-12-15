@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Handles everything related to where and when the asteroids spawn
+/// </summary>
 public class AsteroidSpawner : MonoBehaviour
 {
     public GameObject asteroidPrefab;

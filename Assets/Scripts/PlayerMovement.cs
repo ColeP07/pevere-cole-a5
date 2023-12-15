@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody2D rb;
-    public float playerSpeed = 2.5f;
+    public float playerSpeed = 5f;
     public float rotationSpeed = 180f;
     public float drag = 2f;
     public float maxSpeed = 10f;
@@ -39,10 +39,12 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        //resets lives back to full if player runs out
         if (uiManager.playerLives ==  0)
         {
             uiManager.playerLives = 3;
         }
+
         IsShipMoving();
         IsShipRotating();
         IsOffScreen();
@@ -51,6 +53,7 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
+    //Moves the ship if the player is holding forward, slows them down if not
     private void IsShipMoving()
     {
         isMoving = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow);
@@ -65,6 +68,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    //Rotates the player depending on the key being held
     private void IsShipRotating()
     {
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
@@ -77,6 +81,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    //Teleports ship to the other side of the screen to wrap around
     private void IsOffScreen()
     {
         Vector3 position = transform.position;

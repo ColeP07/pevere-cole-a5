@@ -7,10 +7,9 @@ public class Asteroid : MonoBehaviour
     public int asteroidSize = 3;
     public Rigidbody2D rb;
     
-    // Start is called before the first frame update
     void Start()
     {
-        //scales the asteroid depending on its size
+        //scales the asteroid and its speed depending on its size
         transform.localScale = 0.5f * asteroidSize * Vector2.one;
         rb = GetComponent<Rigidbody2D>();
         Vector2 moveDirection = new Vector2(Random.value - 0.5f, Random.value - 0.5f);
@@ -18,7 +17,6 @@ public class Asteroid : MonoBehaviour
         rb.AddForce(moveDirection * speed, ForceMode2D.Impulse);
     }
 
-    // Update is called once per frame
     void Update()
     {
         DestroyIfOffscreen();
@@ -51,7 +49,7 @@ public class Asteroid : MonoBehaviour
     {
         if (collision.CompareTag("Bullet"))
         {
-            //gets rid of the bullet that hit the asteroid
+            //gets rid of the bullet that hit the asteroid and split it into two smaller asteroids
             Destroy(collision.gameObject);
 
             if (asteroidSize > 1)
